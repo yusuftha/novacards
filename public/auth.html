@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Cards - Giriş & Kayıt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('tcg_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body style="background-color: var(--light-bg); color: var(--text-main);">
+    <div class="container-fluid p-0">
+        <div class="row g-0 min-vh-100">
+            <!-- Left Side: Branding/Visual -->
+            <div class="col-lg-6 d-none d-lg-flex auth-split-bg align-items-center justify-content-center p-5 text-white position-relative overflow-hidden">
+                <!-- Animated Background Gradient -->
+                <div class="position-absolute inset-0 auth-gradient-bg"></div>
+                <div class="position-absolute top-0 start-50 translate-middle-x w-100 h-100" style="background: radial-gradient(circle at 30% 50%, rgba(191, 41, 41, 0.15) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%); z-index: 1;"></div>
+
+                <div class="position-relative" style="z-index: 2; max-width: 500px;">
+                    <a href="index.html" class="d-flex align-items-center gap-3 mb-5 text-white text-decoration-none animate-fade-in-down" style="animation-delay: 0s;">
+                        <div class="logo-circle-auth rounded-circle" style="background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.8) 100%); box-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(191, 41, 41, 0.3);"></div>
+                        <h2 class="fw-bold tracking-tighter mb-0 auth-logo-text">Nova Cards</h2>
+                    </a>
+                    
+                    <div class="mb-4 animate-fade-in-up" style="animation-delay: 0.15s;">
+                        <div class="header-line-auth mb-3"></div>
+                        <h1 class="display-3 fw-bold tracking-tighter mb-4">KOLEKSİYONUNU<br><span class="auth-gradient-text">BİR ÜST SEVİYEYE</span><br>TAŞI.</h1>
+                    </div>
+
+                    <p class="lead fw-medium opacity-85 animate-fade-in-up mb-0" style="animation-delay: 0.25s; max-width: 450px;">Dünyanın en nadir ve değerli Pokémon kartlarına erişmek için topluluğumuza katıl. Koleksiyonunu yönet, ticaret yap ve büyüt.</p>
+                </div>
+
+                <!-- Floating decorative cards -->
+                <div class="position-absolute bottom-10 end-5 auth-floating-card animate-float" style="animation-delay: 0s;">
+                    <div style="width: 120px; height: 160px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(191,41,41,0.1) 100%); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; backdrop-filter: blur(10px);"></div>
+                </div>
+                <div class="position-absolute top-20 start-10 auth-floating-card animate-float" style="animation-delay: 1s;">
+                    <div style="width: 100px; height: 140px; background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(191,41,41,0.15) 100%); border: 2px solid rgba(255,215,0,0.2); border-radius: 12px; backdrop-filter: blur(10px);"></div>
+                </div>
+            </div>
+
+            <!-- Right Side: Forms -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 p-md-5 position-relative" style="background: linear-gradient(135deg, var(--light-bg) 0%, rgba(191, 41, 41, 0.02) 100%);">
+                <!-- Background gradient decoration -->
+                <div class="position-absolute top-0 end-0 w-50 h-50" style="background: radial-gradient(circle at 100% 0%, rgba(191, 41, 41, 0.08) 0%, transparent 70%); border-radius: 0 0 50% 50%;"></div>
+                
+                <div class="w-100" style="max-width: 450px; position: relative; z-index: 2;">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                        <a href="index.html" class="btn btn-sm rounded-pill px-3 py-2 fw-bold x-small d-lg-none" style="border: 2px solid var(--border-color); color: var(--text-main); transition: all 0.3s ease;">
+                            <i class="bi bi-arrow-left me-2"></i> ANA SAYFA
+                        </a>
+                        <div id="theme-toggle" class="ms-auto cursor-pointer" style="font-size: 1.3rem; transition: all 0.3s ease;"><i class="bi bi-moon-fill"></i></div>
+                    </div>
+
+                    <div class="auth-card-new p-5 animate-fade-in-up" style="animation-delay: 0.3s; background: linear-gradient(135deg, var(--card-bg) 0%, rgba(191, 41, 41, 0.03) 100%); border: 1px solid rgba(191, 41, 41, 0.1);">
+                        <!-- Header -->
+                        <div class="mb-5">
+                            <h3 class="fw-bold mb-2" style="color: var(--text-main);">Hoş Geldin!</h3>
+                            <p class="text-muted small mb-0">Koleksiyonunu yönetmeye başla</p>
+                        </div>
+
+                        <ul class="nav nav-pills nav-justified mb-5 auth-tab-wrapper" id="authTab" role="tablist">
+                            <li class="nav-item flex-fill">
+                                <button class="nav-link auth-tab-btn active fw-bold text-uppercase x-small tracking-widest py-3 border-0 w-100" data-bs-toggle="pill" data-bs-target="#login">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i> GİRİŞ
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill">
+                                <button class="nav-link auth-tab-btn fw-bold text-uppercase x-small tracking-widest py-3 border-0 w-100" data-bs-toggle="pill" data-bs-target="#register">
+                                    <i class="bi bi-person-plus me-2"></i> KAYIT
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Login Form -->
+                            <div class="tab-pane fade show active" id="login">
+                                <form id="loginForm">
+                                    <div class="mb-5">
+                                        <label class="x-small fw-bold text-uppercase tracking-widest text-muted mb-2 d-block">E-POSTA ADRESİ</label>
+                                        <div class="position-relative">
+                                            <i class="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-4 text-muted" style="z-index: 2;"></i>
+                                            <input type="email" name="email" class="form-control auth-input-field rounded-2xl py-3 ps-5 border-0 fw-semibold" placeholder="ismin@mail.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <label class="x-small fw-bold text-uppercase tracking-widest text-muted mb-0">ŞİFRE</label>
+                                            <a href="#" class="x-small text-primary-red text-decoration-none fw-bold hover-underline">ŞİFREMİ UNUTTUM</a>
+                                        </div>
+                                        <div class="position-relative">
+                                            <i class="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-muted" style="z-index: 2;"></i>
+                                            <input type="password" name="password" class="form-control auth-input-field rounded-2xl py-3 ps-5 border-0 fw-semibold" placeholder="••••••••" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn auth-btn-primary w-100 py-3 fw-bold tracking-widest text-uppercase shadow-sm">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>OTURUM AÇ
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Register Form -->
+                            <div class="tab-pane fade" id="register">
+                                <form id="registerForm">
+                                    <div class="mb-5">
+                                        <label class="x-small fw-bold text-uppercase tracking-widest text-muted mb-2 d-block">AD SOYAD</label>
+                                        <div class="position-relative">
+                                            <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-4 text-muted" style="z-index: 2;"></i>
+                                            <input type="text" name="name" class="form-control auth-input-field rounded-2xl py-3 ps-5 border-0 fw-semibold" placeholder="Ash Ketchum" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="x-small fw-bold text-uppercase tracking-widest text-muted mb-2 d-block">E-POSTA</label>
+                                        <div class="position-relative">
+                                            <i class="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-4 text-muted" style="z-index: 2;"></i>
+                                            <input type="email" name="email" class="form-control auth-input-field rounded-2xl py-3 ps-5 border-0 fw-semibold" placeholder="ash@pallett.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="x-small fw-bold text-uppercase tracking-widest text-muted mb-2 d-block">ŞİFRE</label>
+                                        <div class="position-relative">
+                                            <i class="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-muted" style="z-index: 2;"></i>
+                                            <input type="password" name="password" class="form-control auth-input-field rounded-2xl py-3 ps-5 border-0 fw-semibold" placeholder="En az 6 karakter" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn auth-btn-primary w-100 py-3 fw-bold tracking-widest text-uppercase shadow-sm">
+                                        <i class="bi bi-person-check me-2"></i>HESAP OLUŞTUR
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-center mt-5 x-small text-muted fw-bold tracking-widest opacity-75">
+                        © 2026 Nova Cards - <br class="d-none d-sm-block">Pokémon Şirketi ile bağlantısı yoktur
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        $('#loginForm').submit(function(e) {
+            e.preventDefault();
+            const data = {
+                email: $(this).find('[name="email"]').val(),
+                password: $(this).find('[name="password"]').val()
+            };
+            $.post('/api/login', data, function(res) {
+                if (res.success) window.location.href = 'index.html';
+            }).fail(err => alert(err.responseJSON.message));
+        });
+
+        $('#registerForm').submit(function(e) {
+            e.preventDefault();
+            const data = {
+                name: $(this).find('[name="name"]').val(),
+                email: $(this).find('[name="email"]').val(),
+                password: $(this).find('[name="password"]').val()
+            };
+            $.post('/api/register', data, function(res) {
+                if (res.success) window.location.href = 'index.html';
+            }).fail(err => alert(err.responseJSON.message));
+        });
+    </script>
+
+    <!-- Redesigned Footer -->
+    <footer class="py-5 mt-5">
+        <div class="container pt-5">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand d-flex align-items-center gap-2 mb-4 p-0" href="index.html">
+                        <div class="logo-circle bg-primary-red rounded-circle"></div>
+                        <span class="fw-bold tracking-tighter">Nova Cards</span>
+                    </a>
+                    <p class="text-muted small leading-relaxed mb-4">
+                        Nadir Pokémon koleksiyoncuları için küratörlüğü yapılmış, güvenilir ve tutkulu bir pazar yeri. Hazineleriniz burada güvende.
+                    </p>
+                    <div class="d-flex">
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-discord"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Keşfet</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="shop.html" class="footer-link">Tüm Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Dereceli Kartlar" class="footer-link">Dereceli Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Booster Paketleri" class="footer-link">Booster'lar</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Destek</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="tracking.html" class="footer-link">Kargo Takip</a></li>
+                        <li class="mb-2"><a href="faq.html" class="footer-link">SSS</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Bülten</h6>
+                    <p class="text-muted small mb-4">Yeni gelen nadir parçalardan ilk siz haberdar olun.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control rounded-start-pill border-2 ps-4 x-small fw-bold" placeholder="E-posta adresiniz">
+                        <button class="btn btn-primary rounded-end-pill px-4 x-small fw-bold">KATIL</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <p class="x-small text-muted fw-bold mb-0">© 2026 Nova Cards. Tüm Hakları Saklıdır.</p>
+                <div class="d-flex gap-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" height="20" class="opacity-50 grayscale" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" height="20" class="opacity-50 grayscale" alt="MasterCard">
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mağaza - Nova Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('tcg_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <div class="logo-circle bg-primary-red rounded-circle"></div>
+                <span class="fw-bold tracking-tighter">Nova Cards</span>
+            </a>
+            <div class="collapse navbar-collapse justify-content-center" id="navContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="shop.html">Mağaza</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tracking.html">Kargo Takip</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">SSS</a></li>
+                </ul>
+            </div>
+            <div class="d-flex align-items-center gap-2" id="auth-actions">
+                <div id="search-trigger" class="p-2 cursor-pointer"><i class="bi bi-search h5 mb-0"></i></div>
+                <div id="theme-toggle" class="p-2"><i class="bi bi-moon-fill h5 mb-0"></i></div>
+                <a href="cart.html" class="position-relative p-2">
+                    <i class="bi bi-bag h5 mb-0"></i>
+                    <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary-red opacity-0" style="font-size: 0.6rem; padding: 4px 6px;">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row g-4">
+            <aside class="col-lg-3">
+                <div class="filter-sidebar sticky-top" style="top: 100px">
+                    <h6 class="fw-bold mb-4 tracking-widest uppercase x-small text-muted border-bottom pb-2">Kategoriler</h6>
+                    <div class="nav flex-column mb-4 p-0">
+                        <a href="shop.html" class="nav-link category-btn active" data-cat="all">
+                            <i class="bi bi-grid-fill me-2"></i> Tüm Ürünler
+                        </a>
+                        <a href="shop.html?category=Tekli Kartlar" class="nav-link category-btn" data-cat="Tekli Kartlar">
+                            <i class="bi bi-card-text me-2"></i> Tekli Kartlar
+                        </a>
+                        <a href="shop.html?category=Booster Paketleri" class="nav-link category-btn" data-cat="Booster Paketleri">
+                            <i class="bi bi-box-seam me-2"></i> Booster Paketleri
+                        </a>
+                        <a href="shop.html?category=Elite Trainer Boxlar" class="nav-link category-btn" data-cat="Elite Trainer Boxlar">
+                            <i class="bi bi-archive me-2"></i> Setler & Kutular
+                        </a>
+                        <a href="shop.html?category=Dereceli Kartlar" class="nav-link category-btn" data-cat="Dereceli Kartlar">
+                            <i class="bi bi-award me-2"></i> Dereceli Kartlar
+                        </a>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 tracking-widest uppercase x-small text-muted border-bottom pb-2 mt-5">Nadirlik</h6>
+                    <div class="mb-4">
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Efsanevi" id="rare-legendary">
+                            <label for="rare-legendary">Efsanevi</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Nadir" id="rare-rare">
+                            <label for="rare-rare">Nadir</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Ortak" id="rare-common">
+                            <label for="rare-common">Ortak</label>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 tracking-widest uppercase x-small text-muted border-bottom pb-2 mt-4">Kondisyon</h6>
+                    <div class="mb-4">
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Mint" id="cond-mint">
+                            <label for="cond-mint">Mint (10/10)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Near Mint" id="cond-nm">
+                            <label for="cond-nm">Near Mint (9/10)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="Excellent" id="cond-ex">
+                            <label for="cond-ex">Excellent (8/10)</label>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 tracking-widest uppercase x-small text-muted border-bottom pb-2 mt-4">Fiyat Aralığı</h6>
+                    <div class="mb-4">
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="0-50" id="price-low">
+                            <label for="price-low">$0 - $50</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="50-200" id="price-mid">
+                            <label for="price-mid">$50 - $200</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="200-above" id="price-high">
+                            <label for="price-high">$200+</label>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 tracking-widest uppercase x-small text-muted border-bottom pb-2 mt-4">Durum</h6>
+                    <div class="mb-4">
+                        <div class="form-check mb-2">
+                            <input class="filter-checkbox" type="checkbox" value="in-stock" id="stock-in" checked>
+                            <label for="stock-in">Stokta Var</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5 p-4 rounded-4 bg-primary-red text-white">
+                        <h6 class="fw-bold x-small uppercase tracking-widest mb-2">Need Help?</h6>
+                        <p class="x-small opacity-75 mb-3 leading-relaxed">Koleksiyonunuz için uzman danışmanlığı ister misiniz?</p>
+                        <a href="#" class="btn btn-light w-100 py-2 x-small fw-bold">DANIŞMANA SOR</a>
+                    </div>
+                </div>
+            </aside>
+            <main class="col-lg-9">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 animate-fade-in-up gap-3">
+                    <div>
+                        <h2 class="text-uppercase fw-bold tracking-tighter mb-1 h3" id="shop-title">Mağaza</h2>
+                        <span class="text-muted x-small fw-bold tracking-widest uppercase" id="result-count">Yükleniyor...</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <label class="x-small fw-bold text-muted uppercase tracking-widest d-none d-sm-block">Sırala:</label>
+                        <select class="form-select w-auto" id="sort-select">
+                            <option value="featured">Öne Çıkanlar</option>
+                            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+                            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+                            <option value="name-asc">İsim (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-4" id="product-grid"></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Redesigned Footer -->
+    <footer class="py-5 mt-5">
+        <div class="container pt-5">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand d-flex align-items-center gap-2 mb-4 p-0" href="index.html">
+                        <div class="logo-circle bg-primary-red rounded-circle"></div>
+                        <span class="fw-bold tracking-tighter">Nova Cards</span>
+                    </a>
+                    <p class="text-muted small leading-relaxed mb-4">
+                        Nadir Pokémon koleksiyoncuları için küratörlüğü yapılmış, güvenilir ve tutkulu bir pazar yeri. Hazineleriniz burada güvende.
+                    </p>
+                    <div class="d-flex">
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-discord"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Keşfet</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="shop.html" class="footer-link">Tüm Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Dereceli Kartlar" class="footer-link">Dereceli Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Booster Paketleri" class="footer-link">Booster'lar</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Destek</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="tracking.html" class="footer-link">Kargo Takip</a></li>
+                        <li class="mb-2"><a href="faq.html" class="footer-link">SSS</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Bülten</h6>
+                    <p class="text-muted small mb-4">Yeni gelen nadir parçalardan ilk siz haberdar olun.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control rounded-start-pill border-2 ps-4 x-small fw-bold" placeholder="E-posta adresiniz">
+                        <button class="btn btn-primary rounded-end-pill px-4 x-small fw-bold">KATIL</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <p class="x-small text-muted fw-bold mb-0">© 2026 Nova Cards. Tüm Hakları Saklıdır.</p>
+                <div class="d-flex gap-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" height="20" class="opacity-50 grayscale" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" height="20" class="opacity-50 grayscale" alt="MasterCard">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        let allProducts = [];
+        let activeCategory = getUrlParam('category') || 'all';
+
+        $(document).ready(function() {
+            loadProducts(activeCategory);
+            
+            if (activeCategory !== 'all') {
+                $('#shop-title').text(activeCategory.toUpperCase());
+                $('.category-btn').removeClass('active');
+                $(`.category-btn[data-cat="${activeCategory}"]`).addClass('active');
+            }
+
+            $('.filter-checkbox, #sort-select').on('change', function() {
+                updateUI();
+            });
+        });
+
+        function loadProducts(categoryFilter) {
+            $.get('/api/products', function(products) {
+                allProducts = products;
+                updateUI();
+            });
+        }
+
+        function updateUI() {
+            let filtered = filterProducts(allProducts);
+            let sorted = applySorting(filtered);
+            renderGrid(sorted);
+        }
+
+        function filterProducts(products) {
+            let result = [...products];
+
+            // Category Filter
+            if (activeCategory && activeCategory !== 'all') {
+                result = result.filter(p => p.category === activeCategory);
+            }
+
+            // Rarity Filter
+            const selectedRarities = $('.filter-checkbox[id^="rare-"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if (selectedRarities.length > 0) {
+                result = result.filter(p => selectedRarities.includes(p.rarity));
+            }
+
+            // Condition Filter
+            const selectedConditions = $('.filter-checkbox[id^="cond-"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if (selectedConditions.length > 0) {
+                result = result.filter(p => selectedConditions.includes(p.condition || 'Near Mint'));
+            }
+
+            // Price Filter
+            const selectedPrices = $('.filter-checkbox[id^="price-"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if (selectedPrices.length > 0) {
+                result = result.filter(p => {
+                    return selectedPrices.some(range => {
+                        if (range === '0-50') return p.price <= 50;
+                        if (range === '50-200') return p.price > 50 && p.price <= 200;
+                        if (range === '200-above') return p.price > 200;
+                        return false;
+                    });
+                });
+            }
+
+            // Stock Filter
+            const showOnlyInStock = $('#stock-in').is(':checked');
+            if (showOnlyInStock) {
+                result = result.filter(p => p.stock > 0 || p.stock === undefined);
+            }
+
+            return result;
+        }
+
+        function applySorting(products) {
+            const sortMode = $('#sort-select').val();
+            let result = [...products];
+            if (sortMode === 'price-asc') result.sort((a,b) => a.price - b.price);
+            else if (sortMode === 'price-desc') result.sort((a,b) => b.price - a.price);
+            else if (sortMode === 'name-asc') result.sort((a,b) => a.name.localeCompare(b.name));
+            return result;
+        }
+
+        function renderGrid(products) {
+            $('#result-count').text(`${products.length} ÜRÜN`);
+            let html = '';
+            if (products.length === 0) {
+                html = '<div class="col-12 py-5 text-center"><div class="opacity-50 mb-3"><i class="bi bi-search display-1"></i></div><h4 class="fw-bold text-muted">Aradığınız kriterlere uygun ürün bulunamadı.</h4></div>';
+            } else {
+                products.forEach(p => {
+                    const rarityClass = p.rarity.toLowerCase() === 'efsanevi' ? 'rarity-efsanevi' : '';
+                    html += `
+                        <div class="col-md-4 animate-fade-in-up">
+                            <div class="card product-card border-0 h-100 position-relative shadow-sm">
+                                <div class="badge-rarity ${rarityClass}">${p.rarity}</div>
+                                <a href="product.html?id=${p.id}" class="text-decoration-none">
+                                    <div class="card-img-container">
+                                        <img src="${p.image}" class="img-fluid" alt="${p.name}">
+                                    </div>
+                                </a>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <span class="text-primary-red x-small fw-bold text-uppercase tracking-widest mb-2 d-block">${p.category}</span>
+                                    <h6 class="fw-bold mb-3 tracking-tighter text-main">${p.name}</h6>
+                                    <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-bold h5 mb-0 tracking-tighter text-main">$${p.price.toLocaleString()}</span>
+                                            <span class="x-small text-muted fw-bold">${p.condition || 'Near Mint'}</span>
+                                        </div>
+                                        <button onclick="addToCart('${p.id}')" class="btn btn-primary d-flex align-items-center justify-content-center p-0" style="width: 40px; height: 40px; border-radius: 12px;">
+                                            <i class="bi bi-cart-plus h5 mb-0"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            $('#product-grid').html(html);
+        }
+    </script>
+</body>
+</html>

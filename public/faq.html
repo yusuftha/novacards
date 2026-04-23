@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sık Sorulan Sorular - Nova Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #A62424 100%);
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.1) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .faq-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-hero h1 {
+            color: white;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .faq-hero p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.2rem;
+        }
+
+        /* Category Navigation */
+        .faq-categories {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .faq-category-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .faq-category-btn:hover,
+        .faq-category-btn.active {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            background: rgba(191, 41, 41, 0.05);
+        }
+
+        .faq-category-btn.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        /* FAQ Accordion */
+        .faq-accordion {
+            margin: 3rem 0;
+        }
+
+        .accordion-button {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            border-radius: 12px !important;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, rgba(191, 41, 41, 0.05) 0%, rgba(255, 215, 0, 0.02) 100%);
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 0.25rem rgba(191, 41, 41, 0.15);
+        }
+
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23bf2929' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(191, 41, 41, 0.02) 0%, rgba(255, 215, 0, 0.01) 100%);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-body strong {
+            color: var(--text-main);
+        }
+
+        /* FAQ Item Wrapper */
+        .faq-item-group {
+            display: none;
+        }
+
+        .faq-item-group.active {
+            display: block;
+        }
+
+        .faq-item-group.show-all {
+            display: block;
+        }
+
+        /* Search Box */
+        .faq-search {
+            margin: 2rem 0;
+        }
+
+        .faq-search-input {
+            background: linear-gradient(135deg, rgba(191, 41, 41, 0.02) 0%, rgba(255, 215, 0, 0.01) 100%);
+            border: 2px solid rgba(191, 41, 41, 0.15);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-search-input:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 4px rgba(191, 41, 41, 0.1);
+        }
+
+        /* Stats Section */
+        .faq-stats {
+            background: linear-gradient(135deg, rgba(191, 41, 41, 0.05) 0%, rgba(255, 215, 0, 0.02) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-red);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Contact CTA */
+        .faq-contact-cta {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #A62424 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .faq-contact-cta h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .faq-contact-cta p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-contact-btn {
+            background: white;
+            color: var(--primary-red);
+            border: none;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 0 0.5rem;
+        }
+
+        .faq-contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Helpful Section */
+        .helpful-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .helpful-section p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .helpful-btn {
+            background: none;
+            border: 2px solid var(--border-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+            color: var(--text-main);
+        }
+
+        .helpful-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            background: rgba(191, 41, 41, 0.05);
+        }
+
+        .helpful-btn.yes {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .helpful-btn.yes:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .faq-hero {
+                padding: 3rem 0;
+            }
+
+            .faq-hero h1 {
+                font-size: 2rem;
+            }
+
+            .faq-categories {
+                gap: 0.5rem;
+            }
+
+            .faq-category-btn {
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .faq-contact-cta {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: var(--light-bg); color: var(--text-main);">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <div class="logo-circle bg-primary-red rounded-circle"></div>
+                <span class="fw-bold tracking-tighter">Nova Cards</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Mağaza</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tracking.html">Kargo Takip</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="faq.html">SSS</a></li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center gap-2" id="auth-actions">
+                <div id="theme-toggle" class="p-2"><i class="bi bi-moon-fill h5 mb-0"></i></div>
+                <a href="cart.html" class="position-relative p-2"><i class="bi bi-bag h5 mb-0"></i></a>
+                <a href="auth.html" class="position-relative p-2"><i class="bi bi-person h5 mb-0"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container">
+            <div class="faq-hero-content text-center">
+                <h1 class="display-4 fw-bold tracking-tighter mb-3">Sık Sorulan Sorular</h1>
+                <p>Nova Cards hakkında merak ettiklerinizin yanıtları burada</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Search Box -->
+        <div class="faq-search">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-transparent border-0 ps-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" id="faqSearch" class="form-control faq-search-input border-start-0 border-end-0" placeholder="Arama yapın...">
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="faq-stats">
+            <div class="row g-4">
+                <div class="col-md-4 stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Soru & Cevap</span>
+                </div>
+                <div class="col-md-4 stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Müşteri Memnuniyeti</span>
+                </div>
+                <div class="col-md-4 stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Canlı Destek</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Buttons -->
+        <div class="text-center">
+            <h5 class="fw-bold mb-3">Kategorilere Göz At</h5>
+            <div class="faq-categories">
+                <button class="faq-category-btn active" onclick="filterCategory('all')">Tümü</button>
+                <button class="faq-category-btn" onclick="filterCategory('urun')">Ürün & Koleksiyon</button>
+                <button class="faq-category-btn" onclick="filterCategory('siparis')">Sipariş & Ödeme</button>
+                <button class="faq-category-btn" onclick="filterCategory('kargo')">Kargo & Teslimat</button>
+                <button class="faq-category-btn" onclick="filterCategory('hukuk')">Politikalar</button>
+            </div>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="faq-accordion mt-5">
+            <!-- ÜRÜN KATEGORISI -->
+            <div class="faq-item-group" data-category="urun">
+                <div class="accordion accordion-flush" id="productAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#product1">
+                                <i class="bi bi-card-text me-3"></i> Pokémon kartları nasıl değerlendirilir?
+                            </button>
+                        </h2>
+                        <div id="product1" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body">
+                                Kartlarımız uluslararası standartlara göre değerlendirilir. <strong>PSA, BGS ve CGC</strong> gibi profesyonel kuruluşlar tarafından sertifikalandırılır. Değerlendirme ölçütleri: kart durumu, köşeler, kenarlar, ortalanma ve yüzey kalitesidir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#product2">
+                                <i class="bi bi-shield-check me-3"></i> Kartların orijinal olduğunu nasıl anlarım?
+                            </button>
+                        </h2>
+                        <div id="product2" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body">
+                                <strong>Nova Cards'taki tüm kartlar %100 orijinal</strong> ve uzman ekibimizce doğrulanmıştır. Tercih ederseniz <strong>PSA, BGS, CGC</strong> sertifikası ile sipariş edebilirsiniz. Her kartta <strong>hologram kimlik</strong> ve <strong>başlangıç kutusundan</strong> gelen kartlar mevcuttur.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#product3">
+                                <i class="bi bi-box-seam me-3"></i> Booster paket nedir?
+                            </button>
+                        </h2>
+                        <div id="product3" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body">
+                                <strong>Booster paketleri</strong> resmi Pokémon kartı setinin parçasıdır. 10-11 rastgele kart içeren paketlerdir. Nadir hologram veya yıldız kartlar bulma şansınız vardır. <strong>Mühürlü ve orijinal ambalajdadır</strong>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#product4">
+                                <i class="bi bi-star-fill me-3"></i> Dereceli kartlar nedir?
+                            </button>
+                        </h2>
+                        <div id="product4" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body">
+                                <strong>Dereceli kartlar</strong> profesyonel kuruluşlar tarafından değerlendirilmiş ve sertifikalandırılmış kartlardır. 1-10 arası bir puan alırlar. <strong>Daha yüksek puanlı kartlar daha değerli ve kolektörlerin tercihidir</strong>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#product5">
+                                <i class="bi bi-collection me-3"></i> Birden fazla set mi satılıyor?
+                            </button>
+                        </h2>
+                        <div id="product5" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body">
+                                Evet! <strong>1. Baskı, Sınırsız Baskı, Shadowless</strong> gibi farklı setlere ait kartlar satmaktayız. Her kartın seti ve baskısı açıkça belirtilmiştir. 1. Baskı kartları genellikle daha değerlidir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIPARIŞ KATEGORISI -->
+            <div class="faq-item-group" data-category="siparis">
+                <div class="accordion accordion-flush" id="orderAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order1">
+                                <i class="bi bi-cart-fill me-3"></i> Nasıl satın alabilirim?
+                            </button>
+                        </h2>
+                        <div id="order1" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                <strong>3 adım:</strong> 1) Mağazada istediğiniz kartı seçin, 2) Sepete ekleyin ve ödeme yapın, 3) Siparişiniz hemen işlenmeye başlanır. <strong>Kredi kartı, Debit kartı ve alternatif ödeme yöntemleri</strong> kabul ederiz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order2">
+                                <i class="bi bi-credit-card me-3"></i> Hangi ödeme yöntemleri destekleniyor?
+                            </button>
+                        </h2>
+                        <div id="order2" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                <strong>Kredi Kartı, Debit Kartı, Banka Transferi, Cep Cüzdanı</strong> ve <strong>Sanal Cüzdan</strong> kabul ederiz. Tüm işlemler güvenli 256-bit SSL şifreleme ile korunmaktadır.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order3">
+                                <i class="bi bi-percent me-3"></i> İndirim veya kampanya var mı?
+                            </button>
+                        </h2>
+                        <div id="order3" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                <strong>Evet!</strong> Bültenimize abone olarak en yeni kampanyalardan haberdar olabilirsiniz. <strong>Toplu satın alma, mevsimsel indirimler</strong> ve <strong>özel kupon kodları</strong> mevcuttur.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order4">
+                                <i class="bi bi-receipt me-3"></i> Fatura alabilir miyim?
+                            </button>
+                        </h2>
+                        <div id="order4" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                Kesinlikle! Her sipariş için <strong>otomatik olarak e-fatura oluşturulur</strong> ve hesabınıza yüklenir. Kurumsal fatura için müşteri hizmetlerine başvurunuz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order5">
+                                <i class="bi bi-key me-3"></i> Hesap oluşturmak zorunlu mu?
+                            </button>
+                        </h2>
+                        <div id="order5" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                Evet, hesap oluşturmanız gerekmektedir. Böylece <strong>sipariş geçmişinizi görebilir, ayrıntılı takip yapabilir ve ödülü puan kazanabilirsiniz</strong>. Kayıt işlemi 1 dakika sürmektedir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARGO KATEGORISI -->
+            <div class="faq-item-group" data-category="kargo">
+                <div class="accordion accordion-flush" id="shippingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ship1">
+                                <i class="bi bi-truck me-3"></i> Kargo süresi ne kadar?
+                            </button>
+                        </h2>
+                        <div id="ship1" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                <strong>İçişleri: 1-2 iş günü</strong>, <strong>Dışişleri: 7-15 iş günü</strong>. Cumaresi, Pazarı ve Resmi tatil günleri hesaba katılmaz. Siparişler <strong>aynı gün işlenebilir</strong>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ship2">
+                                <i class="bi bi-box me-3"></i> Paket nasıl hazırlanır?
+                            </button>
+                        </h2>
+                        <div id="ship2" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                Tüm kartlar <strong>özel koruma ambalajı</strong> ile sargılanır. Değerli kartlar <strong>ayrı koruma kutusu</strong> içinde gönderilir. Kırılma riskini %99.9 oranında azaltıyoruz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ship3">
+                                <i class="bi bi-geo-alt me-3"></i> Uluslararası kargo yapılıyor mu?
+                            </button>
+                        </h2>
+                        <div id="ship3" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                <strong>Evet!</strong> Dünya'nın 150+ ülkesine kargo göndermekteyiz. Dışişleri kargo ücreti sipariş tutarına göre değişmektedir. Gümrük vergisi alıcıya aittir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ship4">
+                                <i class="bi bi-search me-3"></i> Siparişimi takip edebilir miyim?
+                            </button>
+                        </h2>
+                        <div id="ship4" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                Kesinlikle! <a href="tracking.html" style="color: var(--primary-red);">Kargo Takip</a> sayfasında kargo numaranızı girerek <strong>gerçek zamanlı olarak siparişinizi takip edebilirsiniz</strong>. SMS ve e-posta bildirimleri de alırsınız.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ship5">
+                                <i class="bi bi-shield-check me-3"></i> Paket kaybolursa ne olur?
+                            </button>
+                        </h2>
+                        <div id="ship5" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                <strong>Nova Cards tam sigorta sağlamaktadır</strong>. Paket kaybolursa veya hasar görürse, ürünün tam değerini iade ederiz. Talep etmek için <strong>kargo şirketi belgesini</strong> sunmanız gereklidir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POLİTİKALAR KATEGORISI -->
+            <div class="faq-item-group" data-category="hukuk">
+                <div class="accordion accordion-flush" id="policyAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policy1">
+                                <i class="bi bi-arrow-left-right me-3"></i> İade/Değişim politikası nedir?
+                            </button>
+                        </h2>
+                        <div id="policy1" class="accordion-collapse collapse" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                Ürünü aldıktan sonra <strong>30 gün içinde</strong> iade veya değişim talebinde bulunabilirsiniz. <strong>Ürün açılmamış ve orijinal durumda olmalıdır</strong>. Kullanılan kartlar iade edilemez.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policy2">
+                                <i class="bi bi-cash-coin me-3"></i> Geri ödeme ne zaman yapılır?
+                            </button>
+                        </h2>
+                        <div id="policy2" class="accordion-collapse collapse" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                İade edilen ürün bizim depomuza vardıktan sonra <strong>5-7 iş günü</strong> içinde geri ödeme işlemi başlatılır. Parayı <strong>özgün ödeme yöntemine</strong> iade ederiz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policy3">
+                                <i class="bi bi-info-circle me-3"></i> Gizlilik politikası nedir?
+                            </button>
+                        </h2>
+                        <div id="policy3" class="accordion-collapse collapse" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <strong>Kişisel verileriniz gizlidir</strong> ve üçüncü şahıslarla paylaşılmaz. Sadece kargo ve ödeme işlemleri için kullanılır. KVKK uyumlu.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policy4">
+                                <i class="bi bi-file-earmark-text me-3"></i> Telif hakları ve garantileri nelerdir?
+                            </button>
+                        </h2>
+                        <div id="policy4" class="accordion-collapse collapse" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                Pokémon™ markası The Pokémon Company'ye aittir. <strong>Nova Cards</strong> yalnızca yetkili satıcı olarak hareket eder. Tüm ürünler <strong>orijinal garantisi</strong> ile gelmektedir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#policy5">
+                                <i class="bi bi-eye me-3"></i> Üyelik çıkış yapabilir miyim?
+                            </button>
+                        </h2>
+                        <div id="policy5" class="accordion-collapse collapse" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                Evet, istediğiniz zaman <strong>hesap ayarlarınızdan</strong> üyelikten çıkabilirsiniz. Veya müşteri hizmetlerine "Hesabımı sil" talebinde bulunabilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TÜMÜ KATEGORİSİ -->
+            <div class="faq-item-group active show-all" data-category="all">
+                <div class="accordion accordion-flush" id="allAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#all1">
+                                <i class="bi bi-card-text me-3"></i> Pokémon kartları nasıl değerlendirilir?
+                            </button>
+                        </h2>
+                        <div id="all1" class="accordion-collapse collapse" data-bs-parent="#allAccordion">
+                            <div class="accordion-body">
+                                Kartlarımız uluslararası standartlara göre değerlendirilir. PSA, BGS ve CGC gibi profesyonel kuruluşlar tarafından sertifikalandırılır. Değerlendirme ölçütleri: kart durumu, köşeler, kenarlar, ortalanma ve yüzey kalitesidir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#all2">
+                                <i class="bi bi-shield-check me-3"></i> Kartların orijinal olduğunu nasıl anlarım?
+                            </button>
+                        </h2>
+                        <div id="all2" class="accordion-collapse collapse" data-bs-parent="#allAccordion">
+                            <div class="accordion-body">
+                                Nova Cards'taki tüm kartlar %100 orijinal ve uzman ekibimizce doğrulanmıştır. Tercih ederseniz PSA, BGS, CGC sertifikası ile sipariş edebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#all3">
+                                <i class="bi bi-truck me-3"></i> Kargo süresi ne kadar?
+                            </button>
+                        </h2>
+                        <div id="all3" class="accordion-collapse collapse" data-bs-parent="#allAccordion">
+                            <div class="accordion-body">
+                                İçişleri: 1-2 iş günü, Dışişleri: 7-15 iş günü. Cumaresi, Pazarı ve Resmi tatil günleri hesaba katılmaz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#all4">
+                                <i class="bi bi-cart-fill me-3"></i> Nasıl satın alabilirim?
+                            </button>
+                        </h2>
+                        <div id="all4" class="accordion-collapse collapse" data-bs-parent="#allAccordion">
+                            <div class="accordion-body">
+                                3 adım: 1) Mağazada istediğiniz kartı seçin, 2) Sepete ekleyin ve ödeme yapın, 3) Siparişiniz hemen işlenmeye başlanır.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#all5">
+                                <i class="bi bi-arrow-left-right me-3"></i> İade/Değişim politikası nedir?
+                            </button>
+                        </h2>
+                        <div id="all5" class="accordion-collapse collapse" data-bs-parent="#allAccordion">
+                            <div class="accordion-body">
+                                Ürünü aldıktan sonra 30 gün içinde iade veya değişim talebinde bulunabilirsiniz. Ürün açılmamış ve orijinal durumda olmalıdır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helpful Section -->
+        <div class="helpful-section">
+            <h5 class="fw-bold mb-2">Bu sayfa yardımcı oldu mu?</h5>
+            <p>Geri bildiriminiz bize daha iyi hizmet vermemize yardımcı olur</p>
+            <button class="helpful-btn yes" onclick="trackHelpful('yes')">
+                <i class="bi bi-hand-thumbs-up me-2"></i>Evet
+            </button>
+            <button class="helpful-btn" onclick="trackHelpful('no')">
+                <i class="bi bi-hand-thumbs-down me-2"></i>Hayır
+            </button>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="faq-contact-cta">
+            <h3>Sorunuzu bulamadınız mı?</h3>
+            <p>Müşteri hizmetlerimiz 24/7 sizin için hazır</p>
+            <a href="mailto:halo@novacards.com" class="faq-contact-btn">
+                <i class="bi bi-envelope me-2"></i>E-mail Gönder
+            </a>
+            <a href="tracking.html" class="faq-contact-btn">
+                <i class="bi bi-chat-dots me-2"></i>Canlı Sohbet
+            </a>
+        </div>
+    </div>
+
+    <!-- Redesigned Footer -->
+    <footer class="py-5 mt-5">
+        <div class="container pt-5">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand d-flex align-items-center gap-2 mb-4 p-0" href="index.html">
+                        <div class="logo-circle bg-primary-red rounded-circle"></div>
+                        <span class="fw-bold tracking-tighter">Nova Cards</span>
+                    </a>
+                    <p class="text-muted small leading-relaxed mb-4">
+                        Nadir Pokémon koleksiyoncuları için küratörlüğü yapılmış, güvenilir ve tutkulu bir pazar yeri. Hazineleriniz burada güvende.
+                    </p>
+                    <div class="d-flex">
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-discord"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Keşfet</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="shop.html" class="footer-link">Tüm Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Dereceli Kartlar" class="footer-link">Dereceli Kartlar</a></li>
+                        <li class="mb-2"><a href="shop.html?category=Booster Paketleri" class="footer-link">Booster'lar</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Destek</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="tracking.html" class="footer-link">Kargo Takip</a></li>
+                        <li class="mb-2"><a href="faq.html" class="footer-link">SSS</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="fw-bold x-small text-uppercase tracking-widest mb-4">Bülten</h6>
+                    <p class="text-muted small mb-4">Yeni gelen nadir parçalardan ilk siz haberdar olun.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control rounded-start-pill border-2 ps-4 x-small fw-bold" placeholder="E-posta adresiniz">
+                        <button class="btn btn-primary rounded-end-pill px-4 x-small fw-bold">KATIL</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <p class="x-small text-muted fw-bold mb-0">© 2026 Nova Cards. Tüm Hakları Saklıdır.</p>
+                <div class="d-flex gap-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" height="20" class="opacity-50 grayscale" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" height="20" class="opacity-50 grayscale" alt="MasterCard">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function filterCategory(category) {
+            // Kategorileri gizle
+            document.querySelectorAll('.faq-item-group').forEach(item => {
+                item.classList.remove('active', 'show-all');
+            });
+
+            // Butonları güncelle
+            document.querySelectorAll('.faq-category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Seçili kategoriyi göster
+            if (category === 'all') {
+                document.querySelector('[data-category="all"]').classList.add('active', 'show-all');
+                document.querySelector('[onclick="filterCategory(\'all\')"]').classList.add('active');
+            } else {
+                document.querySelector(`[data-category="${category}"]`).classList.add('active');
+                document.querySelector(`[onclick="filterCategory('${category}')"]`).classList.add('active');
+            }
+        }
+
+        // Arama fonksiyonu
+        document.getElementById('faqSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const buttons = document.querySelectorAll('.accordion-button');
+
+            buttons.forEach(button => {
+                const parent = button.closest('.accordion-item');
+                const text = button.textContent.toLowerCase();
+                parent.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        // Yardımcı oldu mu tracking
+        function trackHelpful(response) {
+            alert(`Geri bildiriminiz için teşekkür ederiz! (${response === 'yes' ? 'Evet' : 'Hayır'})`);
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('tcg_theme', newTheme);
+            });
+        }
+    </script>
+</body>
+</html>
